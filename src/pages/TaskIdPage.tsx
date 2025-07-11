@@ -1,11 +1,11 @@
-import { useParams } from "react-router-dom"
-import { useTasks } from "../context/TasksContext";
+import { Link, useParams } from "react-router-dom"
+import { useTasks } from "../context/TasksContext"
 
 const TaskIdPage = () => {
 
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string }>()
     const { tasks } = useTasks()
-    const taskId = id ? parseInt(id) : NaN;
+    const taskId = id ? parseInt(id) : NaN
     const task = tasks.find((task) => (task.id === taskId))
 
     if (!task) {
@@ -51,6 +51,12 @@ const TaskIdPage = () => {
                     </div>
                 </div>
             )}
+            <Link
+                to={`/task/${task.id}/edit`}
+                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded"
+            >
+                Редактировать
+            </Link>
         </div>
     )
 }

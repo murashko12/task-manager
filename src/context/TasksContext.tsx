@@ -1,42 +1,52 @@
-import { createContext, useContext, useState, useEffect } from "react"
-import type { ITask } from "../types/Task"
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+import type { ITask } from "../types/task"
 
 interface TasksContextType {
     tasks: ITask[]
     addTask: (task: Omit<ITask, "id">) => void
+    updateTask: (id: number, updatedTask: Partial<ITask>) => void
+    getTaskById: (id: number) => ITask | undefined
 }
 
 const TasksContext = createContext<TasksContextType | undefined>(undefined)
 
-const initialTasks: ITask[] = []
-
-export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
-
+export const TasksProvider = ({ children }: { children: ReactNode }) => {
     const [tasks, setTasks] = useState<ITask[]>(() => {
         try {
             const saved = localStorage.getItem('tasks')
-            return saved ? JSON.parse(saved) : initialTasks
+            return saved ? JSON.parse(saved) : []
         } catch (e) {
             console.error("Ошибка при чтении из localStorage", e)
-            return initialTasks;
+            return []
         }
     })
 
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks))
-        // localStorage.clear()
     }, [tasks])
 
     const addTask = (task: Omit<ITask, "id">) => {
-            const newTask: ITask = {
+        const newTask: ITask = {
             ...task,
             id: Date.now()
         }
-        setTasks((prevTasks) => [...prevTasks, newTask])
+        setTasks(prev => [...prev, newTask])
+    }
+
+    const updateTask = (id: number, updatedData: Partial<ITask>) => {
+        setTasks(prevTasks =>
+            prevTasks.map(task =>
+                task.id === id ? { ...task, ...updatedData } : task
+            )
+        )
+    }
+
+    const getTaskById = (id: number) => {
+        return tasks.find(task => task.id === id)
     }
 
     return (
-        <TasksContext.Provider value={{ tasks, addTask }}>
+        <TasksContext.Provider value={{ tasks, addTask, updateTask, getTaskById }}>
             {children}
         </TasksContext.Provider>
     )

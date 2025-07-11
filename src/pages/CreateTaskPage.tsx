@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useTasks } from "../context/TasksContext"
 import { TaskStatus, TaskPriority, type TaskCategoryType, type TaskPriorityType, TaskCategory } from "../types/enums"
 import { useNavigate } from "react-router-dom"
-import type { ITask } from "../types/Task"
+import type { ITask } from "../types/task"
 
 const CreateTaskPage = () => {
     const { addTask } = useTasks()

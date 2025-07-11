@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useTasks } from "../context/TasksContext"
-import { TaskStatus, TaskPriority, type TaskCategoryType, type TaskPriorityType, type TaskStatusType } from "../types/enums"
+import { TaskStatus, TaskPriority, type TaskCategoryType, type TaskPriorityType, TaskCategory } from "../types/enums"
 import { useNavigate } from "react-router-dom"
 import type { ITask } from "../types/Task"
 
@@ -71,23 +71,6 @@ const CreateTaskPage = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Статус</label>
-                    <select
-                        value={formData.status}
-                        onChange={(e) => (
-                            setFormData({ ...formData, status: e.target.value as TaskStatusType })
-                        )}
-                        className="w-full p-2 border rounded"
-                    >
-                        {Object.values(TaskStatus).map((status) => (
-                            <option key={status} value={status}>
-                                {status}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">Приоритет</label>
                     <select
                         value={formData.priority}
@@ -110,20 +93,24 @@ const CreateTaskPage = () => {
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">Теги</label>
                     <div className="flex gap-2 mb-2">
-                        <input
-                            type="text"
+                        <select
                             value={newTag}
                             onChange={(e) => setNewTag(e.target.value)}
                             className="flex-1 p-2 border rounded"
-                            placeholder="Добавить тег"
-                        />
+                        >
+                            <option value="">Выберите тег</option>
+                            {Object.values(TaskCategory).map((category) => (
+                                <option key={category} value={category}>
+                                    {category}
+                                </option>
+                            ))}
+                        </select>
                         <button
                             type="button"
                             onClick={handleAddTag}
-                            className="px-3 bg-blue-500 text-white rounded"
-                        >
-                            +
-                        </button>
+                            disabled={!newTag}
+                            className="px-3 bg-blue-500 text-white rounded disabled:bg-gray-300"
+                        >+</button>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {formData.tags.map((tag) => (
@@ -136,9 +123,7 @@ const CreateTaskPage = () => {
                                     type="button"
                                     onClick={() => handleRemoveTag(tag)}
                                     className="text-red-500"
-                                >
-                                    x
-                                </button>
+                                >x</button>
                             </span>
                         ))}
                     </div>

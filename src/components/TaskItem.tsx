@@ -1,6 +1,7 @@
 import type { ITask } from "../types/Task"
 
 
+
 type TaskItemProps = Pick<ITask, 'title' | 'priority' | 'tags'>
 
 const TaskItem = ({ title, priority, tags }: TaskItemProps) => {

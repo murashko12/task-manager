@@ -1,19 +1,34 @@
-import { createContext, useState, type ReactNode } from "react"
+import { createContext, useContext, useState, useEffect } from "react"
 import type { ITask } from "../types/Task"
-import { useContext } from "react"
 
 interface TasksContextType {
-  tasks: ITask[]
-  addTask: (task: Omit<ITask, "id">) => void
+    tasks: ITask[]
+    addTask: (task: Omit<ITask, "id">) => void
 }
 
 const TasksContext = createContext<TasksContextType | undefined>(undefined)
 
-export const TasksProvider = ({ children }: { children: ReactNode }) => {
-    const [tasks, setTasks] = useState<ITask[]>([])
+const initialTasks: ITask[] = []
+
+export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
+
+    const [tasks, setTasks] = useState<ITask[]>(() => {
+        try {
+            const saved = localStorage.getItem('tasks')
+            return saved ? JSON.parse(saved) : initialTasks
+        } catch (e) {
+            console.error("Ошибка при чтении из localStorage", e)
+            return initialTasks;
+        }
+    })
+
+    useEffect(() => {
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+        // localStorage.clear()
+    }, [tasks])
 
     const addTask = (task: Omit<ITask, "id">) => {
-        const newTask: ITask = {
+            const newTask: ITask = {
             ...task,
             id: Date.now()
         }
@@ -30,7 +45,7 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
 export const useTasks = () => {
     const context = useContext(TasksContext)
     if (!context) {
-        throw new Error("useTasks должен быть использован с TasksProvider")
+        throw new Error("useTasks must be used within a TasksProvider")
     }
     return context
 }

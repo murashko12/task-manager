@@ -1,10 +1,9 @@
-import type { ITask } from "../types/Task"
+import { Link } from "react-router-dom"
+import type { ITask } from "../types/task"
 
+type TaskItemProps = Pick<ITask, 'id' | 'title' | 'priority' | 'tags'>
 
-
-type TaskItemProps = Pick<ITask, 'title' | 'priority' | 'tags'>
-
-const TaskItem = ({ title, priority, tags }: TaskItemProps) => {
+const TaskItem = ({ id, title, priority, tags }: TaskItemProps) => {
 
     return (
         <div className="w-full h-full border-2 rounded-lg p-2">
@@ -20,6 +19,9 @@ const TaskItem = ({ title, priority, tags }: TaskItemProps) => {
                     </span>
                 ))}
             </div>
+            <Link to={`/task/${id}`}>
+                <button className="border-2 rounded-lg p-2 cursor-pointer">Edit</button>
+            </Link>
         </div>
     )
 }

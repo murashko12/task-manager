@@ -16,7 +16,7 @@ export const TaskCategory = {
     DOCUMENTATION: "DOCUMENTATION",
     REFACTOR: "REFACTOR",
     TEST: "TEST"
-}
+} as const
 
 export type TaskStatusType = typeof TaskStatus[keyof typeof TaskStatus]
 export type TaskPriorityType = typeof TaskPriority[keyof typeof TaskPriority]

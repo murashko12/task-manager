@@ -1,13 +1,13 @@
 import './index.css'
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
+import { TasksProvider } from './context/TasksContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  <TasksProvider>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </StrictMode>
+  </TasksProvider>
 )

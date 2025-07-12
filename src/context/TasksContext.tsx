@@ -7,6 +7,7 @@ interface TasksContextType {
     updateTask: (id: number, updatedTask: Partial<ITask>) => void
     getTaskById: (id: number) => ITask | undefined
     reorderTasks: (newOrder: ITask[]) => void
+    deleteTask: (id: number) => void
 }
 
 const TasksContext = createContext<TasksContextType | undefined>(undefined)
@@ -51,8 +52,12 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('tasks', JSON.stringify(newOrder))
     }
 
+    const deleteTask = (id: number) => {
+        setTasks(prevTasks => prevTasks.filter(task => task.id !== id))
+    }
+
     return (
-        <TasksContext.Provider value={{ tasks, addTask, updateTask, getTaskById, reorderTasks }}>
+        <TasksContext.Provider value={{ tasks, addTask, updateTask, getTaskById, reorderTasks, deleteTask }}>
             {children}
         </TasksContext.Provider>
     )

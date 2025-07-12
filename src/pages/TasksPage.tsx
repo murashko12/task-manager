@@ -69,7 +69,8 @@ const TasksPage = () => {
             <div className="flex items-center justify-between">
                 <input 
                     type="text" 
-                    className="border-2 rounded-lg p-2 outline-none w-64"
+                    className="border rounded-lg p-2 outline-none w-64 bg-white"
+                    placeholder="Поиск задачи..."
                 />
                 <Link to="/create_task">
                     <button className="border-2 rounded-lg p-2 cursor-pointer bg-blue-500 text-white hover:bg-blue-600">

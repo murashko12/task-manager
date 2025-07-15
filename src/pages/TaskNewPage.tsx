@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { useTasks } from "../context/TasksContext"
-import { TaskStatus, TaskPriority, type TaskCategoryType, type TaskPriorityType, TaskCategory } from "../types/enums"
+import { useTasks } from "@/context/TasksContext"
+import { TaskStatus, TaskPriority, type TaskCategoryType, type TaskPriorityType, TaskCategory } from "@/types/enums"
 import { useNavigate } from "react-router-dom"
-import type { ITask } from "../types/task"
+import type { ITask } from "@/types/task"
 
-const CreateTaskPage = () => {
+const TaskNewPage = () => {
     const { addTask } = useTasks()
     const navigate = useNavigate()
 
@@ -160,4 +160,4 @@ const CreateTaskPage = () => {
     )
 }
 
-export default CreateTaskPage
+export default TaskNewPage

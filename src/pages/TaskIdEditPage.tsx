@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { useTasks } from "../context/TasksContext"
+import { useTasks } from "@/context/TasksContext"
 import { useEffect, useState } from "react"
-import type { ITask } from "../types/task"
-import { TaskStatus, TaskPriority, TaskCategory, type TaskCategoryType, type TaskPriorityType, type TaskStatusType } from "../types/enums"
+import type { ITask } from "@/types/task"
+import { TaskStatus, TaskPriority, TaskCategory, type TaskCategoryType, type TaskPriorityType, type TaskStatusType } from "@/types/enums"
 
 const TaskIdEditPage = () => {
     const { id } = useParams<{ id: string }>()

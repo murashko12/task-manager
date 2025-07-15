@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
-import type { ITask } from "../types/task"
+import type { ITask } from "@/types/task"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import { TaskPriority } from "../types/enums"
+import { TaskPriority } from "@/types/enums"
 
 interface TaskItemProps extends ITask {
     isDragging?: boolean

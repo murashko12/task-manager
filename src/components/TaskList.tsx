@@ -1,5 +1,5 @@
 import { type ReactNode } from "react"
-import { TaskStatus, type TaskStatusType } from "../types/enums"
+import { TaskStatus, type TaskStatusType } from "@/types/enums"
 import { useDroppable } from "@dnd-kit/core"
 
 interface IProps {

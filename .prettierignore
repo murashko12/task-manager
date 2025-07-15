@@ -1,0 +1,8 @@
+node_modules
+dist
+build
+*.config.js
+public
+.DS_Store
+.env
+.vscode

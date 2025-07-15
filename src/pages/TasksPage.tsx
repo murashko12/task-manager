@@ -113,7 +113,7 @@ const TasksPage = () => {
                     </select>
                 </div>
                 
-                <Link to="/create_task" className="w-full md:w-auto">
+                <Link to="/task/new" className="w-full md:w-auto">
                     <button className="border-2 rounded-lg p-2 cursor-pointer bg-blue-500 text-white hover:bg-blue-600 w-full">
                         Добавить задачу
                     </button>

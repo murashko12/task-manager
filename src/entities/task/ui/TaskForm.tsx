@@ -171,14 +171,7 @@ const TaskForm = ({
                                 </option>
                             ))}
                         </select>
-                    <button
-                        type="button"
-                        className="px-3 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 transition-colors"
-                        disabled={loading}
-                    >
-                        +
-                    </button>
-                </div>
+                    </div>
                     <div className="flex flex-wrap gap-2">
                         {tags.map(tag => (
                             <span

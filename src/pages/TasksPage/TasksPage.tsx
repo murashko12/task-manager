@@ -19,10 +19,11 @@ import useDebounce from "@/shared/lib/useDebounce"
 import { useTasks } from "@/entities/task/model/useTasks"
 
 const TasksPage = () => {
-    const { tasks, updateTask, reorderTasks } = useTasks()
+    const { tasks, updateTask, reorderTasks, isFetching } = useTasks()
     const [activeTask, setActiveTask] = useState<ITask | null>(null)
     const [searchTerm, setSearchTerm] = useState("")
     const [tagFilter, setTagFilter] = useState<TaskCategoryType | "all">("all")
+    const [isDragging, setIsDragging] = useState(false)
 
     const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
@@ -61,12 +62,14 @@ const TasksPage = () => {
     )
 
     const handleDragStart = (event: DragStartEvent) => {
+        setIsDragging(true)
         const { active } = event
         const task = tasks.find((t) => t.id === active.id)
         if (task) setActiveTask(task)
     }
 
-    const handleDragEnd = (event: DragEndEvent) => {
+    const handleDragEnd = async (event: DragEndEvent) => {
+        setIsDragging(false)
         const { active, over } = event
         if (!over) return
 
@@ -76,15 +79,19 @@ const TasksPage = () => {
         if (active.data.current?.status === over.data.current?.status) {
             const oldIndex = tasks.findIndex((task) => task.id === activeId)
             const newIndex = tasks.findIndex((task) => task.id === overId)
-            reorderTasks(arrayMove(tasks, oldIndex, newIndex))
+            await reorderTasks(arrayMove(tasks, oldIndex, newIndex))
             return
         }
 
         const newStatus = over.data.current?.status as TaskStatusType
         if (!newStatus || !Object.values(TaskStatus).includes(newStatus)) return
 
-        updateTask(activeId as number, { status: newStatus })
+        await updateTask(activeId as number, { status: newStatus })
         setActiveTask(null)
+    }
+
+    if (isFetching && !isDragging) {
+        return <div className="w-full min-h-screen bg-gray-100 p-5">Загрузка...</div>
     }
 
     return (

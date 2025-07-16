@@ -31,4 +31,4 @@ const TaskList = ({ status, children }: IProps) => {
   )
 }
 
-export default TaskList;
+export default TaskList

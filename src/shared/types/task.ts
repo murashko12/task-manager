@@ -1,4 +1,4 @@
-import type { TaskCategoryType, TaskPriorityType, TaskStatusType } from "@/types/enums"
+import type { TaskCategoryType, TaskPriorityType, TaskStatusType } from "@/shared/types/enums"
 
 export interface ITask {
     id: number

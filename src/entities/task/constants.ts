@@ -1,4 +1,4 @@
-import { TaskPriority, TaskStatus } from "@/types/enums"
+import { TaskPriority, TaskStatus } from "@/shared/types/enums"
 
 export const priorityTitles = {
     [TaskPriority.LOW]: 'Низкий',

@@ -4,11 +4,11 @@ import {
     useUpdateTaskMutation,
     useDeleteTaskMutation,
     useReorderTasksMutation,
-} from '@/services/tasksApi'
-import type { ITask } from '@/types/task'
+} from '@/app/services/tasksApi'
+import type { ITask } from '@/shared/types/task'
 
 export const useTasks = () => {
-    
+
     const { data: tasks = [], isLoading, isError, refetch } = useGetTasksQuery()
     const [addTaskMutation, { isLoading: isAdding }] = useAddTaskMutation()
     const [updateTaskMutation, { isLoading: isUpdating }] = useUpdateTaskMutation()

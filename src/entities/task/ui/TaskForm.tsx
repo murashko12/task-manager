@@ -7,9 +7,9 @@ import {
     type TaskCategoryType, 
     type TaskPriorityType, 
     type TaskStatusType 
-} from '@/types/enums'
-import type { ITask } from '@/types/task'
-import { priorityTitles, statusTitles } from '@/constants/TaskSelectItemsFields'
+} from '@/shared/types/enums'
+import type { ITask } from '@/shared/types/task'
+import { priorityTitles, statusTitles } from '@/entities/task/constants'
 
 
 interface TaskFormProps {
@@ -25,7 +25,8 @@ const TaskForm = ({
         description: '',
         status: TaskStatus.TO_DO,
         priority: TaskPriority.MEDIUM,
-        tags: []
+        tags: [],
+        createdAt: new Date().toISOString()
     },
     onSubmit,
     submitButtonText,

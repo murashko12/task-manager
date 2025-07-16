@@ -1,7 +1,7 @@
 import { type ReactNode } from "react"
-import { type TaskStatusType } from "@/types/enums"
+import { type TaskStatusType } from "@/shared/types/enums"
 import { useDroppable } from "@dnd-kit/core"
-import { statusTitles } from "@/constants/TaskSelectItemsFields"
+import { statusTitles } from "@/entities/task/constants"
 
 interface IProps {
   status: TaskStatusType

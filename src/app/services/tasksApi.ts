@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { ITask } from '@/types/task'
+import type { ITask } from '@/shared/types/task'
 
 export const tasksApi = createApi({
     reducerPath: 'tasksApi',

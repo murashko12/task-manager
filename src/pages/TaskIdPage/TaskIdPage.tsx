@@ -1,8 +1,8 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 
-import { TaskPriority, type TaskPriorityType } from "@/types/enums"
+import { TaskPriority, type TaskPriorityType } from "@/shared/types/enums"
 import { useState } from "react"
-import { useTasks } from "@/hooks/useTasks"
+import { useTasks } from "@/entities/task/model/useTasks"
 
 const TaskIdPage = () => {
     const { id } = useParams<{ id: string }>()

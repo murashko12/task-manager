@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react"
-import TaskItem from "@components/TaskItem"
-import TaskList from "@components/TaskList"
-import { TaskStatus, TaskCategory, type TaskStatusType, type TaskCategoryType } from "@/types/enums"
+import TaskItem from "@/entities/task/ui/TaskItem"
+import TaskList from "@/entities/task/ui/TaskList"
+import { TaskStatus, TaskCategory, type TaskStatusType, type TaskCategoryType } from "@/shared/types/enums"
 import { Link } from "react-router-dom"
-import type { ITask } from "@/types/task"
+import type { ITask } from "@/shared/types/task"
 import { 
     DndContext,
     DragOverlay,
@@ -15,8 +15,8 @@ import {
     closestCorners
 } from "@dnd-kit/core"
 import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable"
-import useDebounce from "@/hooks/useDebounce"
-import { useTasks } from "@/hooks/useTasks"
+import useDebounce from "@/shared/lib/useDebounce"
+import { useTasks } from "@/entities/task/model/useTasks"
 
 const TasksPage = () => {
     const { tasks, updateTask, reorderTasks } = useTasks()

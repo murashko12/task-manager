@@ -1,8 +1,8 @@
 
 import { useNavigate } from 'react-router-dom'
-import TaskForm from '@/components/TaskForm'
-import type { ITask } from '@/types/task'
-import { useTasks } from '@/hooks/useTasks'
+import TaskForm from '@/entities/task/ui/TaskForm'
+import type { ITask } from '@/shared/types/task'
+import { useTasks } from '@/entities/task/model/useTasks'
 
 const TaskNewPage = () => {
 

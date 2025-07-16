@@ -2,7 +2,6 @@ import { useMemo, useState } from "react"
 import TaskItem from "@components/TaskItem"
 import TaskList from "@components/TaskList"
 import { TaskStatus, TaskCategory, type TaskStatusType, type TaskCategoryType } from "@/types/enums"
-import { useTasks } from "@/context/TasksContext"
 import { Link } from "react-router-dom"
 import type { ITask } from "@/types/task"
 import { 
@@ -17,6 +16,7 @@ import {
 } from "@dnd-kit/core"
 import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import useDebounce from "@/hooks/useDebounce"
+import { useTasks } from "@/hooks/useTasks"
 
 const TasksPage = () => {
     const { tasks, updateTask, reorderTasks } = useTasks()

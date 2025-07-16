@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { useTasks } from '@/context/TasksContext'
+
 import TaskForm from '@/components/TaskForm'
 import type { ITask } from '@/types/task'
+import { useTasks } from '@/hooks/useTasks'
 
 const TaskIdEditPage = () => {
-    
+
     const { id } = useParams<{ id: string }>()
     const { updateTask, getTaskById } = useTasks()
     const navigate = useNavigate()

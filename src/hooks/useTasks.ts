@@ -1,42 +1,51 @@
-import { useGetTasksQuery, useAddTaskMutation, useUpdateTaskMutation, useDeleteTaskMutation, useReorderTasksMutation } from '@/services/tasksApi'
+import {
+    useGetTasksQuery,
+    useAddTaskMutation,
+    useUpdateTaskMutation,
+    useDeleteTaskMutation,
+    useReorderTasksMutation,
+} from '@/services/tasksApi'
 import type { ITask } from '@/types/task'
 
 export const useTasks = () => {
     
-    const { data: tasks = [], isLoading, isError } = useGetTasksQuery()
-    const [addTaskMutation] = useAddTaskMutation()
-    const [updateTaskMutation] = useUpdateTaskMutation()
-    const [deleteTaskMutation] = useDeleteTaskMutation()
-    const [reorderTasksMutation] = useReorderTasksMutation()
+    const { data: tasks = [], isLoading, isError, refetch } = useGetTasksQuery()
+    const [addTaskMutation, { isLoading: isAdding }] = useAddTaskMutation()
+    const [updateTaskMutation, { isLoading: isUpdating }] = useUpdateTaskMutation()
+    const [deleteTaskMutation, { isLoading: isDeleting }] = useDeleteTaskMutation()
+    const [reorderTasksMutation, { isLoading: isReordering }] = useReorderTasksMutation()
 
-    const addTask = async (task: Omit<ITask, 'id'>) => {
-        await addTaskMutation(task)
+    const addTask = async (task: Omit<ITask, 'id' | 'createdAt' | 'updatedAt'>) => {
+        return addTaskMutation(task).unwrap()
     }
 
     const updateTask = async (id: number, changes: Partial<ITask>) => {
-        await updateTaskMutation({ id, changes })
+        return updateTaskMutation({ id, changes }).unwrap()
     }
 
     const deleteTask = async (id: number) => {
-        await deleteTaskMutation(id)
+        return deleteTaskMutation(id).unwrap()
     }
 
     const reorderTasks = async (newOrder: ITask[]) => {
-        await reorderTasksMutation(newOrder)
+        return reorderTasksMutation(newOrder).unwrap()
     }
 
-    const getTaskById = (id: number) => {
-        return tasks.find(task => task.id === id)
-    }
+    const getTaskById = (id: number) => tasks.find((task) => task.id === id)
 
     return {
         tasks,
         isLoading,
         isError,
+        isAdding,
+        isUpdating,
+        isDeleting,
+        isReordering,
+        refetch,
         addTask,
         updateTask,
         deleteTask,
         reorderTasks,
-        getTaskById
+        getTaskById,
     }
 }

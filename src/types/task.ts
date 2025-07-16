@@ -7,4 +7,6 @@ export interface ITask {
     status: TaskStatusType
     priority: TaskPriorityType
     tags: TaskCategoryType[]
+    createdAt: string
+    updatedAt?: string
 }

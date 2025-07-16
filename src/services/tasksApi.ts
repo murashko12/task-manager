@@ -3,7 +3,7 @@ import type { ITask } from '@/types/task'
 
 export const tasksApi = createApi({
     reducerPath: 'tasksApi',
-    baseQuery: fetchBaseQuery({ baseUrl: '/' }), // Вроде как для localStorage можно использовать fake API
+    baseQuery: fetchBaseQuery({ baseUrl: '/' }),
     tagTypes: ['Tasks'],
     endpoints: (builder) => ({
         getTasks: builder.query<ITask[], void>({
@@ -18,12 +18,18 @@ export const tasksApi = createApi({
             },
             providesTags: ['Tasks']
         }),
-        addTask: builder.mutation<ITask, Omit<ITask, 'id'>>({
+        addTask: builder.mutation<ITask, Omit<ITask, 'id' | 'createdAt' | 'updatedAt'>>({
             queryFn: (task) => {
                 try {
                     const saved = localStorage.getItem('tasks')
                     const tasks = saved ? JSON.parse(saved) : []
-                    const newTask = { ...task, id: Date.now() }
+                    const now = new Date().toISOString()
+                    const newTask = {
+                        ...task,
+                        id: Date.now(),
+                        createdAt: now,
+                        updatedAt: now
+                    }
                     localStorage.setItem('tasks', JSON.stringify([...tasks, newTask]))
                     return { data: newTask }
                 } catch (e) {
@@ -38,7 +44,9 @@ export const tasksApi = createApi({
                     const saved = localStorage.getItem('tasks')
                     const tasks = saved ? JSON.parse(saved) : []
                     const updatedTasks = tasks.map((task: ITask) =>
-                        task.id === id ? { ...task, ...changes } : task
+                        task.id === id
+                            ? { ...task, ...changes, updatedAt: new Date().toISOString() }
+                            : task
                     )
                     localStorage.setItem('tasks', JSON.stringify(updatedTasks))
                     const updatedTask = updatedTasks.find((task: ITask) => task.id === id)
@@ -66,14 +74,14 @@ export const tasksApi = createApi({
         reorderTasks: builder.mutation<void, ITask[]>({
             queryFn: (newOrder) => {
                 try {
-                localStorage.setItem('tasks', JSON.stringify(newOrder))
-                return { data: undefined }
+                    localStorage.setItem('tasks', JSON.stringify(newOrder))
+                    return { data: undefined }
                 } catch (e) {
-                return { error: { status: 500, data: 'Ошибка при переупорядочивании задач' } }
+                    return { error: { status: 500, data: 'Ошибка при переупорядочивании задач' } }
                 }
             },
             invalidatesTags: ['Tasks']
-        })
+        }),
     })
 })
 

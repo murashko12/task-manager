@@ -1,6 +1,7 @@
 import { type ReactNode } from "react"
-import { TaskStatus, type TaskStatusType } from "@/types/enums"
+import { type TaskStatusType } from "@/types/enums"
 import { useDroppable } from "@dnd-kit/core"
+import { statusTitles } from "@/constants/TaskSelectItemsFields"
 
 interface IProps {
   status: TaskStatusType
@@ -14,12 +15,6 @@ const TaskList = ({ status, children }: IProps) => {
       status
     }
   })
-
-  const statusTitles = {
-    [TaskStatus.TO_DO]: "К выполнению",
-    [TaskStatus.IN_PROGRESS]: "В работе",
-    [TaskStatus.DONE]: "Выполнено"
-  }
 
   return (
     <div

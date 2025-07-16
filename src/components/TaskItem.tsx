@@ -14,6 +14,7 @@ const TaskItem = ({
     priority, 
     tags, 
     status,
+    createdAt,
     isDragging = false 
 }: TaskItemProps) => {
     const {
@@ -36,9 +37,29 @@ const TaskItem = ({
     }
 
     const priorityTitles = {
-        [TaskPriority.LOW]: <p className="text-green-500">Низкий</p>,
-        [TaskPriority.MEDIUM]: <p className="text-yellow-500">Средний</p>,
-        [TaskPriority.HIGH]: <p className="text-red-500">Высокий</p>
+        [TaskPriority.LOW]: <span className="text-green-500">Низкий</span>,
+        [TaskPriority.MEDIUM]: <span className="text-yellow-500">Средний</span>,
+        [TaskPriority.HIGH]: <span className="text-red-500">Высокий</span>
+    }
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString)
+        
+        const dateOptions: Intl.DateTimeFormatOptions = {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        }
+        
+        const timeOptions: Intl.DateTimeFormatOptions = {
+            hour: '2-digit',
+            minute: '2-digit'
+        }
+        
+        const formattedDate = date.toLocaleDateString('ru-RU', dateOptions)
+        const formattedTime = date.toLocaleTimeString('ru-RU', timeOptions)
+        
+        return `${formattedDate}, ${formattedTime}`
     }
 
     return (
@@ -51,8 +72,14 @@ const TaskItem = ({
                 isDragging ? "shadow-lg opacity-70" : "shadow"
             }`}
         >
-            <h3 className="font-bold">{title}</h3>
-            <div className="flex flex-wrap gap-1 mb-2">
+            <div className="flex justify-between items-start gap-2">
+                <h3 className="font-bold flex-1">{title}</h3>
+                <span className="text-xs text-gray-400 whitespace-nowrap">
+                    {formatDate(createdAt)}
+                </span>
+            </div>
+            
+            <div className="flex flex-wrap gap-1 my-2">
                 {tags.map((tag) => (
                     <span
                         key={tag}
@@ -62,8 +89,11 @@ const TaskItem = ({
                     </span>
                 ))}
             </div>
+            
             <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-500 flex gap-2">Приоритет: {priorityTitles[priority]}</span>
+                <div className="text-sm text-gray-500 flex gap-2">
+                    Приоритет: {priorityTitles[priority]}
+                </div>
                 <Link 
                     to={`/task/${id}`}
                     onClick={(e) => e.stopPropagation()}

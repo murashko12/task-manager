@@ -6,10 +6,9 @@ import {
     TaskCategory, 
     type TaskCategoryType, 
     type TaskPriorityType, 
-    type TaskStatusType 
 } from '@/shared/types/enums'
 import type { ITask } from '@/shared/types/task'
-import { priorityTitles, statusTitles } from '@/entities/task/constants'
+import { priorityTitles } from '@/entities/task/constants'
 
 
 interface TaskFormProps {
@@ -102,28 +101,6 @@ const TaskForm = ({
                                 rows={4}
                                 disabled={loading}
                             />
-                        )}
-                    />
-                </div>
-
-                {/* Селектор статуса */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Статус</label>
-                    <Controller
-                        name="status"
-                        control={control}
-                        render={({ field }) => (
-                            <select
-                                {...field}
-                                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                disabled={loading}
-                            >
-                                {Object.values(TaskStatus).map(status => (
-                                    <option key={status} value={status}>
-                                    {statusTitles[status as TaskStatusType]}
-                                    </option>
-                                ))}
-                            </select>
                         )}
                     />
                 </div>

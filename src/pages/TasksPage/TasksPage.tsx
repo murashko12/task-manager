@@ -1,8 +1,7 @@
 import { useMemo, useState } from "react"
 import TaskItem from "@/entities/task/ui/TaskItem"
 import TaskList from "@/entities/task/ui/TaskList"
-import { TaskStatus, TaskCategory, type TaskStatusType, type TaskCategoryType } from "@/shared/types/enums"
-import { Link } from "react-router-dom"
+import { TaskStatus, type TaskStatusType} from "@/shared/types/enums"
 import type { ITask } from "@/shared/types/task"
 import { 
     DndContext,
@@ -17,31 +16,30 @@ import {
 import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import useDebounce from "@/shared/lib/useDebounce"
 import { useTasks } from "@/entities/task/model/useTasks"
+import Header from "@/widgets/Header"
+import { useAppSelector } from "@/app/hooks"
 
 const TasksPage = () => {
     const { tasks, updateTask, reorderTasks, isFetching } = useTasks()
-    const [activeTask, setActiveTask] = useState<ITask | null>(null)
-    const [searchTerm, setSearchTerm] = useState("")
-    const [tagFilter, setTagFilter] = useState<TaskCategoryType | "all">("all")
-    const [isDragging, setIsDragging] = useState(false)
+    const [ activeTask, setActiveTask ] = useState<ITask | null>(null)
+    
+    const [ isDragging, setIsDragging ] = useState(false)
 
+    const { searchTerm, tagFilter } = useAppSelector(state => state.filters)
     const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
     const filteredTasks = useMemo(() => {
         let result = tasks
-        
         if (debouncedSearchTerm) {
             result = result.filter(task => 
                 task.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
             )
         }
-        
         if (tagFilter !== "all") {
             result = result.filter(task => 
                 task.tags.includes(tagFilter)
             )
         }
-        
         return result
     }, [tasks, debouncedSearchTerm, tagFilter])
 
@@ -96,44 +94,14 @@ const TasksPage = () => {
 
     return (
         <div className="w-full min-h-screen bg-gray-100 p-5 flex flex-col gap-5">
-            <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
-                <div className="flex gap-3 ">
-                    <input 
-                        type="text" 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="border rounded-lg p-2 outline-none flex-1 bg-white w-[400px]"
-                        placeholder="Поиск по названию..."
-                    />
-                    
-                    <select
-                        value={tagFilter}
-                        onChange={(e) => setTagFilter(e.target.value as TaskCategoryType | "all")}
-                        className="border rounded-lg p-2 outline-none bg-white"
-                    >
-                        <option value="all">Все теги</option>
-                        {Object.values(TaskCategory).map((category) => (
-                            <option key={category} value={category}>
-                                {category}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                
-                <Link to="/task/new" className="w-full md:w-auto">
-                    <button className="border-2 rounded-lg p-2 cursor-pointer bg-blue-500 text-white hover:bg-blue-600 w-full">
-                        Добавить задачу
-                    </button>
-                </Link>
-            </div>
-
+            <Header/>
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCorners}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
             >
-                <div className="flex flex-col md:flex-row gap-5 flex-1">
+                <main className="flex flex-col md:flex-row gap-5 flex-1">
                     {Object.values(TaskStatus).map((status) => (
                         <TaskList key={status} status={status}>
                             <SortableContext 
@@ -146,8 +114,7 @@ const TasksPage = () => {
                             </SortableContext>
                         </TaskList>
                     ))}
-                </div>
-
+                </main>
                 <DragOverlay>
                     {activeTask && (
                         <TaskItem {...activeTask} isDragging />

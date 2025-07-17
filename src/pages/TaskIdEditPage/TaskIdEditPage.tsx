@@ -7,10 +7,14 @@ import { useTasks } from '@/entities/task/model/useTasks'
 const TaskIdEditPage = () => {
 
     const { id } = useParams<{ id: string }>()
-    const { updateTask, getTaskById } = useTasks()
+    const { updateTask, getTaskById, isLoading } = useTasks()
     const navigate = useNavigate()
 
     const task = id ? getTaskById(parseInt(id)) : null
+
+    if (isLoading) {
+        return <div>Загрузка...</div>
+    }
 
     if (!task) {
         navigate('/not-found', { replace: true })

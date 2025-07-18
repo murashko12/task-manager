@@ -11,16 +11,7 @@ const Header = () => {
     
     return (
         <header className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
-            <div className="flex gap-3 re">
-                {/* <SearchInput /> */}
-                {/* <input 
-                    type="text" 
-                    value={searchTerm}
-                    onChange={(e) => dispatch(setSearchTerm(e.target.value))}
-                    className="border rounded-lg p-2 outline-none flex-1 bg-white w-[400px]"
-                    placeholder="Поиск по названию..."
-                /> */}
-                
+            <div className="flex gap-3">
                 <SearchInput
                     type="text" 
                     value={searchTerm}

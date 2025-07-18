@@ -9,6 +9,10 @@ import {
 } from '@/shared/types/enums'
 import type { ITask } from '@/shared/types/task'
 import { priorityTitles } from '@/entities/task/constants'
+import { Input } from '@/shared/ui/Input'
+import { Textarea } from '@/shared/ui/Textarea'
+import { Select } from '@/shared/ui/Select'
+import { IoIosClose } from 'react-icons/io'
 
 
 interface TaskFormProps {
@@ -68,24 +72,23 @@ const TaskForm = ({
                 {/* Поле названия */}
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">Название</label>
-                        <Controller
-                            name="title"
-                            control={control}
-                            rules={{ required: 'Название обязательно' }}
-                            render={({ field }) => (
-                                <div>
-                                    <input
-                                        {...field}
-                                        type="text"
-                                        className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        disabled={loading}
-                                    />
-                                    {errors.title && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
-                                    )}
-                                </div>
-                            )}
-                        />
+                    <Controller
+                        name="title"
+                        control={control}
+                        rules={{ required: 'Название обязательно' }}
+                        render={({ field }) => (
+                            <div>
+                                <Input
+                                    {...field}
+                                    type="text"
+                                    disabled={loading}
+                                />
+                                {errors.title && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+                                )}
+                            </div>
+                        )}
+                    />
                 </div>
 
                 {/* Поле описания */}
@@ -95,9 +98,8 @@ const TaskForm = ({
                         name="description"
                         control={control}
                         render={({ field }) => (
-                            <textarea
+                            <Textarea
                                 {...field}
-                                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                 rows={4}
                                 disabled={loading}
                             />
@@ -112,17 +114,13 @@ const TaskForm = ({
                         name="priority"
                         control={control}
                         render={({ field }) => (
-                            <select
-                                {...field}
-                                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                disabled={loading}
-                            >
+                            <Select {...field} disabled={loading}>
                                 {Object.values(TaskPriority).map(priority => (
                                     <option key={priority} value={priority}>
-                                        {priorityTitles[priority as TaskPriorityType]}
+                                    {priorityTitles[priority as TaskPriorityType]}
                                     </option>
                                 ))}
-                            </select>
+                            </Select>
                         )}
                     />
                 </div>
@@ -131,23 +129,22 @@ const TaskForm = ({
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">Теги</label>
                     <div className="flex gap-2 mb-2">
-                        <select
+                        <Select
                             onChange={e => {
                                 if (e.target.value) {
-                                    handleAddTag(e.target.value as TaskCategoryType)
+                                    handleAddTag(e.target.value as TaskCategoryType);
                                 }
                             }}
-                            className="flex-1 p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             disabled={loading}
                             defaultValue=""
                         >
                             <option value="">Выберите тег</option>
-                                {Object.values(TaskCategory).map(category => (
+                            {Object.values(TaskCategory).map(category => (
                                 <option key={category} value={category}>
                                     {category}
                                 </option>
                             ))}
-                        </select>
+                        </Select>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {tags.map(tag => (
@@ -159,10 +156,10 @@ const TaskForm = ({
                                 <button
                                     type="button"
                                     onClick={() => handleRemoveTag(tag)}
-                                    className="text-red-500 hover:text-red-700"
+                                    className="text-red-500 hover:text-red-700 "
                                     disabled={loading}
                                 >
-                                    ×
+                                    <IoIosClose />
                                 </button>
                             </span>
                         ))}

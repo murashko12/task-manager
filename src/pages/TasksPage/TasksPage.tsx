@@ -101,7 +101,7 @@ const TasksPage = () => {
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
             >
-                <main className="flex flex-col md:flex-row gap-5 flex-1">
+                <main className="flex flex-col lg:flex-row gap-5 flex-1">
                     {Object.values(TaskStatus).map((status) => (
                         <TaskList key={status} status={status}>
                             <SortableContext 
